@@ -1,0 +1,209 @@
+let g:configpath = "~/dotfiles/"
+filetype plugin indent on
+" Specify a directory for plugins
+call plug#begin('~/.local/share/nvim/plugged')
+
+Plug 'altercation/vim-colors-solarized'
+
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+Plug 'scrooloose/nerdcommenter'
+
+Plug 'MattesGroeger/vim-bookmarks' 
+Plug 'tpope/vim-fugitive'
+
+Plug 'leshill/vim-json'
+
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tyok/nerdtree-ack', { 'on':  'NERDTreeToggle' }
+Plug 'mileszs/ack.vim' 
+Plug 'dietsche/vim-lastplace'
+
+Plug 'Valloric/YouCompleteMe' 
+
+Plug 'Shougo/unite.vim'
+Plug 'othree/html5.vim', {'for': 'html'}
+Plug 'cakebaker/scss-syntax.vim'
+Plug 'posva/vim-vue', {'for': 'vue'}
+Plug 'csscomb/vim-csscomb', {'for': ['css', 'less', 'sass', 'stylus']}
+
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'ompugao/ctrlp-locate'
+
+Plug 'fisadev/vim-ctrlp-cmdpalette'
+Plug 'tacahiroy/ctrlp-funky'
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'easymotion/vim-easymotion'
+
+" Initialize plugin system
+call plug#end()
+
+"General
+let &t_Co=256
+let t_Co=256
+
+set synmaxcol=120
+set nocursorcolumn
+set nocursorline
+set nocompatible
+filetype plugin indent on
+set smartindent 
+set nowrap 
+
+let mapleader=","
+:imap jj <Esc>
+:imap jk <Esc>
+set number	
+set linebreak	
+set showbreak=+++ 	
+set textwidth=100	
+set showmatch	
+set visualbell	
+ 
+set hlsearch
+set smartcase
+set ignorecase
+set incsearch
+ 
+set autoindent	
+set expandtab	
+set shiftwidth=2
+set smartindent	
+set smarttab	
+set softtabstop=4	
+ 
+"Advanced
+set ruler	
+
+set clipboard=unnamed
+set undolevels=1000	
+set backspace=indent,eol,start	
+
+set foldmethod=indent
+set foldlevel=99
+set foldnestmax=10
+set copyindent
+set autoread
+set undolevels=100
+
+"use ,z to 'focus'   the current fold
+nnoremap <leader>z zmzvzz
+
+"folding
+nnoremap zr zR
+nnoremap zm zM 
+
+"NERDTree
+"map <c-tab> :NERDTreeToggle<cr>
+"nmap <leader>a :NERDTree<cr>
+let g:indent_guides_exclude_filetypes = ['nerdtree'] "fixes the folding issue on NERDTree
+let NERDTreeShowBookmarks=1
+let NERDTreeDirArrows=1
+let NERDTreeMinimalUI=1
+let NERDTreeQuitOnOpen=1
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+"closes nerdtree on tab
+autocmd FileType nerdtree nmap <tab> q
+
+nmap <leader>a :call RcsyncTree()<cr>
+map <silent> <leader><leader><tab> <nop>
+"map <leader>r :NERDTreeFind<cr>
+"allows NERDTree to change de cur dir
+let g:NERDTreeChDirMode=2
+"" returns true iff is NERDTree open/active
+function! RcisNTOpen()
+  return exists("t:NERDTreeBufName")
+endfunction
+
+"when the buffer is nerdtree <tab> closes it
+"autocmd FileType nerdtree noremap <tab> :NERDTreeClose<cr>
+
+"calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
+function! RcsyncTree()
+  if RcisNTOpen() == 0 && !&modifiable
+    NERDTreClose
+  elseif &modifiable 
+    NERDTree %:p:h
+  else
+    NERDTreeClose
+  endif
+endfunction
+
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+
+nnoremap ; :
+nnoremap \ ;
+
+" Fechar Buffer by:jojo
+map <leader>q <esc>:call FecharBuffer()<cr>
+function! FecharBuffer()
+let todelbufNr = bufnr("%")
+let newbufNr = bufnr("#")
+if ((newbufNr != -1) && (newbufNr != todelbufNr) && buflisted(newbufNr))
+exe "b".newbufNr
+  else
+  bnext
+endif
+
+if (bufnr("%") == todelbufNr)
+new
+  endif
+  exe "bd".todelbufNr
+endfunction
+
+"Bookmarking                                                                                                    
+"nmap <leader>mn :BookmarkNext<cr>
+"nmap <leader>mb :BookmarkPrev<cr>
+nmap <Leader>mm <Plug>BookmarkToggle
+nmap <Leader>i <Plug>BookmarkAnnotate
+nmap <Leader>ma <Plug>BookmarkShowAll
+nmap <Leader>mn <Plug>BookmarkNext
+nmap <Leader>mb <Plug>BookmarkPrev
+nmap <Leader>mc <Plug>BookmarkClear
+nmap <Leader>mx <Plug>BookmarkClearAll
+highlight BookmarkSign ctermbg=NONE ctermfg=160
+highlight BookmarkLine ctermbg=194 ctermfg=NONE
+let g:bookmarking_menu = 1
+let g:bookmark_manage_per_buffer = 1
+let g:bookmark_sign = '♥'
+
+"CtrlP
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_match_window_bottom = 1
+let g:ctrlp_match_window = 'bottom,min:1,max:25,results:25'
+let g:ctrlp_max_height= 15
+let g:ctrlp_extensions = ['funky']
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+
+let g:ctrlp_map = '<leader>p'
+
+"CtrlPCmdPalette                                                                                                
+noremap <D-P> :CtrlPMRUFiles <cr>
+noremap <leader>mr :CtrlPMRUFiles<cr>
+noremap <D-π> :CtrlPFunky <cr>
+noremap <leader>b :CtrlPBuffer <cr><up>
+
+"Airline
+
+syntax on
+syntax enable
+set background=dark
+colorscheme solarized
+let g:solarized_termcolors=256
+
+let g:airline_theme='dark'
