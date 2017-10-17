@@ -3,6 +3,10 @@ filetype plugin indent on
 " Specify a directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'craigemery/vim-autotag'
+
+Plug 'tpope/vim-surround'
+
 Plug 'altercation/vim-colors-solarized'
 
 Plug 'SirVer/ultisnips'
@@ -39,6 +43,18 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 Plug 'easymotion/vim-easymotion'
+
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+
+Plug 'leafgarland/typescript-vim'
+
+"Mustache and handlebars mode for vim
+Plug 'mustache/vim-mustache-handlebars'
+
+"Refined Dracula color scheme for Vim
+Plug 'crusoexia/vim-dracula'
+"Plug 'dracula/vim'
 
 " Initialize plugin system
 call plug#end()
@@ -80,8 +96,7 @@ set softtabstop=4
 "Advanced
 set ruler	
 
-set clipboard=unnamed
-set undolevels=1000	
+set clipboard+=unnamed
 set backspace=indent,eol,start	
 
 set foldmethod=indent
@@ -89,7 +104,6 @@ set foldlevel=99
 set foldnestmax=10
 set copyindent
 set autoread
-set undolevels=100
 
 "use ,z to 'focus'   the current fold
 nnoremap <leader>z zmzvzz
@@ -97,6 +111,14 @@ nnoremap <leader>z zmzvzz
 "folding
 nnoremap zr zR
 nnoremap zm zM 
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+"vim-javascript
+let g:javascript_plugin_jsdoc = 1
 
 "NERDTree
 "map <c-tab> :NERDTreeToggle<cr>
@@ -190,6 +212,8 @@ let g:ctrlp_max_height= 15
 let g:ctrlp_extensions = ['funky']
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git|bower_components'
+let g:ctrlp_max_files=0
 let g:ctrlp_map = '<leader>p'
 
 "CtrlPCmdPalette                                                                                                
@@ -198,12 +222,50 @@ noremap <leader>mr :CtrlPMRUFiles<cr>
 noremap <D-π> :CtrlPFunky <cr>
 noremap <leader>b :CtrlPBuffer <cr><up>
 
+nmap <silent> <leader><space> :silent noh<cr>
+noremap <leader>sf :set filetype=
+
+map <tab> >gv
+map <s-tab> <gv
+nmap <tab> >>
+nmap <s-tab> <<
+
+" Ultisnip
+let g:UltiSnipsSnippetDirectories = [g:configpath."vim/UltiSnips"]
+
+"fugitive mappings
+autocmd bufreadpost fugitive://* set bufhidden=delete
+let g:gitv_commitstep = 100
+let g:gitv_openhorizontal = 0
+highlight diffadded guifg=#00bf00
+highlight diffremoved guifg=#bf0000
+
+nnoremap <leader>gs :Gstatus
+nnoremap <leader>gc :Gcommit
+nnoremap <leader>gd :Gdiff
+nnoremap <leader>gb :Gblame
+nnoremap <leader>gr :Gread
+nnoremap <leader>gw :Gwrite
+nnoremap <leader>gp :Gpush origin HEAD
+nnoremap <leader>gu :Gpull
+
 "Airline
+"
+noremap Q gg=G``zz<cr> 
 
 syntax on
 syntax enable
-set background=dark
-colorscheme solarized
-let g:solarized_termcolors=256
+"set background=dark
+"colorscheme solarized
+
+"nerdcommenter
+let g:NERDSpaceDelims = 1
+
+" THEME: Dracula
+colorscheme dracula
+"color dracula
+let g:dracula_italic = 1
+
+"let g:solarized_termcolors=256
 
 let g:airline_theme='dark'
