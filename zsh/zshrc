@@ -94,6 +94,8 @@ alias mux="tmuxinator"
 alias muxkill="tmux kill-session -t "
 alias cls="clear"
 
+alias ember-dist="live-server --port=4200 --entry-file=./index.html"
+
 DEFAULT_USER=macgyvermartins
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
