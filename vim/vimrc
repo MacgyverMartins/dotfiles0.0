@@ -1,5 +1,8 @@
 let g:configpath = "~/dotfiles/"
 filetype plugin indent on
+
+syntax on
+syntax enable
 " Specify a directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -59,10 +62,15 @@ Plug 'crusoexia/vim-dracula'
 Plug 'rakr/vim-one'
 
 Plug 'koron/nyancat-vim'
+
+Plug 'neo4j-contrib/cypher-vim-syntax'
+
+Plug 'tomlion/vim-solidity'
+
+Plug 'digitaltoad/vim-pug'
+
 " Initialize plugin system
 call plug#end()
-
-syntax on
 
 "General
 let &t_Co=256
@@ -297,9 +305,7 @@ set t_8f=^[[38;2;%lu;%lu;%lum
   " endif
 " endif
 
-
 set termguicolors
-syntax enable
 set background=dark " for the dark version
 " set background=light " for the light version
 colorscheme one
