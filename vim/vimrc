@@ -69,6 +69,10 @@ Plug 'tomlion/vim-solidity'
 
 Plug 'digitaltoad/vim-pug'
 
+Plug 'StanAngeloff/php.vim'
+
+Plug 'editorconfig/editorconfig-vim'
+
 " Initialize plugin system
 call plug#end()
 
@@ -311,3 +315,10 @@ set background=dark " for the dark version
 colorscheme one
 let g:airline_theme='one'
 " ----------------------------
+
+"youcompleteme mapping
+imap <c-j> <c-n>
+imap <c-k> <c-p>
+
+"To ensure that this plugin works well with Tim Pope's fugitive and avoid loading EditorConfig for any remote files over ssh:
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
